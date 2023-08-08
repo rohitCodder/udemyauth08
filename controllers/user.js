@@ -49,3 +49,16 @@ export const logout = catchAsyncError(async (req, res, next) => {
       message: "Logged Out Successfully",
     });
 });
+
+// update profile
+export const updateProfile = catchAsyncError(async (req, res, next) => {
+  const { name, email } = req.body;
+  const user = await User.findById(req.user._id);
+  if (name) user.name = name;
+  if (email) user.email = email;
+  await user.save();
+  res.status(200).json({
+    success: true,
+    message: "Profile Updated Successfully",
+  });
+});
